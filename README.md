@@ -1,7 +1,7 @@
 FileStorage (WIP, do not use)
 ===========
 
-FileStorage is an object oriented file storage abstraction library for PHP that aims to support metadata and efficient querying for storage backends supporting them.
+FileStorage is an object oriented file storage abstraction library for PHP5 that aims to support metadata and efficient querying for storage backends supporting them.
 
 ## Features
 
@@ -10,8 +10,8 @@ FileStorage library...
 * is fully PHP5 compatible with nice namespacing
 * behaves consistently with all supported storage backends.
 * has an intuitive and very simple API
-* Supports metadata if storage backend supports it
-* Supports URI awareness to make operating with CDN storages easier.
+* supports metadata if storage backend supports it
+* supports URI awareness to make operating with CDN storages easier.
 
 ## Usage
 
@@ -27,7 +27,11 @@ $file = $storage->open('myFileKey');
 $file->setContent('foobar content');
 $file->save();
 
-// Read contents of an existing file and throw an exception if file is not there
+// Read contents of a file
+$file = $storage->open('myFileKey');
+$file->getContent();
+
+// Read contents of a file and ensure it really existed in storage
 try {
 	$file = $storage->open('myFileKey', $strict = true);
 } catch(FileNotFoundException $e) {
