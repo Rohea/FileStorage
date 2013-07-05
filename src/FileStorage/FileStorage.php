@@ -31,10 +31,10 @@ class FileStorage
      * Opens file for reading and modifying
      *
      * @param string $key
-     * @param boolean $strict If true, throws exception instead of returning a new File when key is not available in storage
+     * @param boolean $create If false, throws exception instead of returning a new File when key is not available in storage
      * @return FileInterface $file;
      */
-    public function open($key, $strict=false)
+    public function open($key, $create = false)
     {
         if (! isset($key) || strlen(trim($key)) == 0) {
             throw new InvalidFileKeyException($key, "File key cannot be empty");
@@ -42,7 +42,7 @@ class FileStorage
 
         //@todo: file key could be validated against a regular expression?
 
-        return $this->adapter->open($key, $strict);
+        return $this->adapter->open($key, $create);
     }
 
     /**

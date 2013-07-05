@@ -53,7 +53,7 @@ class GridFS implements AdapterInterface
     /**
      * {@inheritDoc}
      */
-    public function open($key, $strict=false)
+    public function open($key, $create = false)
     {
         $gridFSFile = $this->gridFS->findOne(array('filename' => $key));
         if (isset($gridFSFile)) {
@@ -69,12 +69,13 @@ class GridFS implements AdapterInterface
 
         } else {
             //File not found
-            if ($strict) {
+            if (! $create) {
                 //Cannot create a new one. Instead throw exception
                 throw new FileNotFoundException($key, "File not found");
             }
             //Let's create a new one
             $file = new GridFSFile($key);
+            $this->save($file);
         }
         return $file;
     }
@@ -86,10 +87,12 @@ class GridFS implements AdapterInterface
     {
         $gridFSFile = $this->gridFS->findOne($key, array('_id'));
         if (! isset($gridFSFile)) {
-            throw new FileNotFoundException($key, "File not found");
+            //File already deleted
+            return true;
         }
 
-        return $this->gridFS->delete($gridFSFile->file['_id']);
+        $this->gridFS->delete($gridFSFile->file['_id']);
+        return true;
     }
 
 }
