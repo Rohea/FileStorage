@@ -22,22 +22,18 @@ $mongoGridFS = new \MongoGridFS(…connection parameters here…);
 $adapter = new Adapter\GridFS($mongoGridFS);
 $storage = new FileStorage($adapter);
 
-// Get a file from storage
-$file = $storage->load('myFileKey');
-
-// Create a new file
-$file = $storage->open('myFileKey', $create = true);
-$file->setContent('foobar content');
-$file->save();
-
-// Read contents of a file, throws an exception if file is not found
+// Load a file from storage, throws an exception if file is not found
 try {
-    $file = $storage->open('myFileKey');
+    $file = $storage->load('myFileKey');
 } catch(FileNotFoundException $e) {
 	//do something
 }
 $file->getContent();
 
+// Create a new file. Also reserve key and set timestamp by touching the file immediately
+$file = $storage->open('myFileKey', $touch = true);
+$file->setContent('foobar content');
+$file->save();
 
 try {
 	$file = $storage->open('myFileKey', $create = true);
