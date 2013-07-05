@@ -28,13 +28,12 @@ class FileStorage
     }
 
     /**
-     * Opens file for reading and modifying
+     * Loads a file for reading and modifying
      *
      * @param string $key
-     * @param boolean $create If false, throws exception instead of returning a new File when key is not available in storage
      * @return FileInterface $file;
      */
-    public function open($key, $create = false)
+    public function load($key)
     {
         if (! isset($key) || strlen(trim($key)) == 0) {
             throw new InvalidFileKeyException($key, "File key cannot be empty");
@@ -42,7 +41,30 @@ class FileStorage
 
         //@todo: file key could be validated against a regular expression?
 
-        return $this->adapter->open($key, $create);
+        return $this->adapter->load($key);
+    }
+
+    /**
+     * Opens a new file object for further modifying
+     *
+     * @param string $key
+     * @param boolean $touch If true, immediately touches file creating a timestamp and reserving the key
+     * @return FileInterface $file;
+     */
+    public function open($key, $touch = false)
+    {
+        if (! isset($key) || strlen(trim($key)) == 0) {
+            throw new InvalidFileKeyException($key, "File key cannot be empty");
+        }
+
+        //@todo: file key could be validated against a regular expression?
+
+        $file = $this->load($key);
+        if (isset($file)) {
+            throw new FileAlreadyExistsException($key, "File already exists");
+        }
+
+        return $this->adapter->open($key, $touch);
     }
 
     /**

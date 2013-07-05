@@ -4,6 +4,7 @@ namespace FileStorage\Adapter;
 use FileStorage\FileInterface;
 use FileStorage\AdapterInterface;
 use FileStorage\File;
+use FileStorage\File\Local as LocalFile;
 use FileStorage\Exception\FileNotFoundException;
 
 /**
@@ -58,25 +59,31 @@ class Local implements AdapterInterface
     /**
      * {@inheritDoc}
      */
-    public function open($key, $create = false)
+    public function load($key)
     {
         $path = $this->rootDir.'/'.$this->normalize($key);
         if (is_file($path)) {
             //Existing file found
-            $file = new File($key);
+            $file = new LocalFile($key, $path);
             //Set file data
             $file->setContent(file_get_contents($path));
             $file->setTimestamp(filemtime($path));
             $file->setSize(mb_strlen($file->getContent(), '8bit'));
             $file->setChecksum(md5_file($path));
-        } else {
-            //File not found
-            if (! $create) {
-                //Cannot create a new one. Instead throw exception
-                throw new FileNotFoundException($key, "File not found");
-            }
-            //Let's create a new one
-            $file = new File($key);
+
+            return $file;
+        }
+        throw new FileNotFoundException($key, "File not found");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function open($key, $touch = false)
+    {
+        $path = $this->rootDir.'/'.$this->normalize($key);
+        $file = new LocalFile($key, $path);
+        if ($touch) {
             $this->save($file);
         }
         return $file;
@@ -99,7 +106,7 @@ class Local implements AdapterInterface
     /**
      * Normalizes the given path
      *
-     * Based on the implementaton of Antoine Hérault in Gaufrette library
+     * Based on the implementation by Antoine Hérault in Gaufrette library
      *
      * @param string $path
      *

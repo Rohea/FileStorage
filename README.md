@@ -22,20 +22,25 @@ $mongoGridFS = new \MongoGridFS(…connection parameters here…);
 $adapter = new Adapter\GridFS($mongoGridFS);
 $storage = new FileStorage($adapter);
 
+// Get a file from storage
+$file = $storage->load('myFileKey');
+
 // Create a new file
-$file = $storage->open('myFileKey');
+$file = $storage->open('myFileKey', $create = true);
 $file->setContent('foobar content');
 $file->save();
 
-// Read contents of a file
-$file = $storage->open('myFileKey');
-$file->getContent();
-
-// Read contents of a file and ensure it really existed in storage
+// Read contents of a file, throws an exception if file is not found
 try {
-	$file = $storage->open('myFileKey', $strict = true);
+    $file = $storage->open('myFileKey');
 } catch(FileNotFoundException $e) {
 	//do something
+}
+$file->getContent();
+
+
+try {
+	$file = $storage->open('myFileKey', $create = true);
 }
 $file->getContent();
 
