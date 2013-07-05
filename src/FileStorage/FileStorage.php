@@ -3,6 +3,7 @@ namespace FileStorage;
 
 use FileStorage\Exception\EmptyFileContentException;
 use FileStorage\Exception\InvalidFileKeyException;
+use FileStorage\Exception\FileNotFoundException;
 
 class FileStorage
 {
@@ -58,13 +59,15 @@ class FileStorage
         }
 
         //@todo: file key could be validated against a regular expression?
-
-        $file = $this->load($key);
-        if (isset($file)) {
-            throw new FileAlreadyExistsException($key, "File already exists");
+        try {
+            $file = $this->load($key);
+            if (isset($file)) {
+                throw new FileAlreadyExistsException($key, "File already exists");
+            }
+        } catch(FileNotFoundException $e) {
+            //It's good that file does not exists here
+            return $this->adapter->open($key, $touch);
         }
-
-        return $this->adapter->open($key, $touch);
     }
 
     /**

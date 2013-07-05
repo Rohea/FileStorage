@@ -45,7 +45,7 @@ class Local extends File
         if (isset($this->content)) {
             return $this->content;
         }
-        if (isset($this->path)) {
+        if (isset($this->path) && is_file($this->path)) {
             //This operation is lazy and should not be called before the bytes are actually needed in app.
             $content = file_get_contents($this->path);
             $this->setContent($content);
