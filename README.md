@@ -33,12 +33,7 @@ $file->getContent();
 // Create a new file. Also reserve key and set timestamp by touching the file immediately
 $file = $storage->open('myFileKey', $touch = true);
 $file->setContent('foobar content');
-$file->save();
-
-try {
-	$file = $storage->open('myFileKey', $create = true);
-}
-$file->getContent();
+$storage->save($file);
 
 ```
 
