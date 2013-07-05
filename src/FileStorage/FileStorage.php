@@ -1,6 +1,9 @@
 <?php
 namespace FileStorage;
 
+use FileStorage\Exception\EmptyFileContentException;
+use FileStorage\Exception\InvalidFileKeyException;
+
 class FileStorage
 {
     protected $adapter;
@@ -18,6 +21,9 @@ class FileStorage
      */
     public function save(FileInterface $file)
     {
+        if ($file->getContent() == null) {
+            throw new EmptyFileContentException($file->getKey(), "Cannot save an empty file.");
+        }
         return $this->adapter->save($file);
     }
 
@@ -30,6 +36,12 @@ class FileStorage
      */
     public function open($key, $strict=false)
     {
+        if (! isset($key) || strlen(trim($key)) == 0) {
+            throw new InvalidFileKeyException($key, "File key cannot be empty");
+        }
+
+        //@todo: file key could be validated against a regular expression?
+
         return $this->adapter->open($key, $strict);
     }
 

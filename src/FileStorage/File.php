@@ -29,14 +29,29 @@ class File implements FileInterface
         return $this->content;
     }
 
+    public function setChecksum($checksum)
+    {
+        $this->checksum = $checksum;
+    }
+
     public function getChecksum()
     {
         return $this->checksum;
     }
 
+    public function setTimestamp($timestamp)
+    {
+        $this->timestamp = $timestamp;
+    }
+
     public function getTimestamp()
     {
         return $this->timestamp;
+    }
+
+    public function setSize($size)
+    {
+        $this->size = $size;
     }
 
     public function getSize()

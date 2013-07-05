@@ -35,8 +35,6 @@ class GridFS implements AdapterInterface
     {
         $key = $file->getKey();
         $gridMetadata = array(
-//            'date' => new MongoDate(),
-//            'name' => $file->getName(),
             'metadata' => $file->getMetadata(),
             'filename' => $key,
         );
@@ -45,7 +43,7 @@ class GridFS implements AdapterInterface
         if ($file instanceof GridFSFile) {
             $file->setGridFSFile($gridFSFile);
         }
-//        $file->setTimestamp($gridFSFile->file['date']->sec);
+        $file->setTimestamp($gridFSFile->file['uploadDate']->sec);
         $file->setSize($gridFSFile->file['length']);
         $file->setChecksum($gridFSFile->file['md5']);
 
@@ -65,7 +63,7 @@ class GridFS implements AdapterInterface
             if (isset($gridFSFile->file['metadata'])) {
                 $file->setMetadata($gridFSFile->file['metadata']);
             }
-//            $file->setTimestamp($gridFSFile->file['date']->sec);
+            $file->setTimestamp($gridFSFile->file['uploadDate']->sec);
             $file->setSize($gridFSFile->file['length']);
             $file->setChecksum($gridFSFile->file['md5']);
 
@@ -73,7 +71,7 @@ class GridFS implements AdapterInterface
             //File not found
             if ($strict) {
                 //Cannot create a new one. Instead throw exception
-                throw new FileNotFoundException();
+                throw new FileNotFoundException($key, "File not found");
             }
             //Let's create a new one
             $file = new GridFSFile($key);
@@ -86,9 +84,12 @@ class GridFS implements AdapterInterface
      */
     public function delete($key)
     {
-        $gridfsFile = $this->find($key, array('_id'));
+        $gridFSFile = $this->gridFS->findOne($key, array('_id'));
+        if (! isset($gridFSFile)) {
+            throw new FileNotFoundException($key, "File not found");
+        }
 
-        return $gridfsFile && $this->gridFS->delete($gridfsFile->file['_id']);
+        return $this->gridFS->delete($gridFSFile->file['_id']);
     }
 
 }

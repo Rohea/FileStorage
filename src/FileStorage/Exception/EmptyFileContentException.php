@@ -1,15 +1,14 @@
 <?php
 namespace FileStorage\Exception;
 
-use \InvalidArgumentException;
 use \Exception;
 
 /**
- * Exception indicates file with given key was not found in file storage
+ * Exception indicates file content is empty
  *
  * @author Tomi Saarinen <tomi.saarinen@rohea.com>
  */
-class FileNotFoundException extends InvalidArgumentException
+class EmptyFileContentException extends Exception
 {
     protected $key;
 
@@ -23,5 +22,4 @@ class FileNotFoundException extends InvalidArgumentException
     {
         return $this->key;
     }
-
 }

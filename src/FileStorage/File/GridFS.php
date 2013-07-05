@@ -2,6 +2,7 @@
 namespace FileStorage\File;
 
 use FileStorage\File;
+use FileStorage\FileMetadataInterface;
 use \MongoGridFSFile;
 
 /**
@@ -9,9 +10,10 @@ use \MongoGridFSFile;
  *
  * @author Tomi Saarinen <tomi.saarinen@rohea.com>
  */
-class GridFS extends File
+class GridFS extends File implements FileMetadataInterface
 {
     protected $gridFSFile = null;
+    protected $metadata;
 
     /**
      * Constructor
@@ -33,6 +35,16 @@ class GridFS extends File
     public function setGridFSFile($gridFSFile)
     {
         $this->gridFSFile = $gridFSFile;
+    }
+
+    public function setMetadata($metadata)
+    {
+        $this->metadata = $metadata;
+    }
+
+    public function getMetadata()
+    {
+        return $this->metadata;
     }
 
     /**

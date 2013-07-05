@@ -9,7 +9,7 @@ use \Exception;
  *
  * @author Tomi Saarinen <tomi.saarinen@rohea.com>
  */
-class FileNotFoundException extends InvalidArgumentException
+class InvalidFileKeyException extends InvalidArgumentException
 {
     protected $key;
 
