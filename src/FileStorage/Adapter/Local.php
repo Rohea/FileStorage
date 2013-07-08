@@ -79,14 +79,11 @@ class Local implements AdapterInterface
     /**
      * {@inheritDoc}
      */
-    public function init($key, $touch = false)
+    public function init($key)
     {
         $path = $this->rootDir.'/'.$this->normalize($key);
-        $file = new LocalFile($key, $path);
-        if ($touch) {
-            $this->save($file);
-        }
-        return $file;
+
+        return new LocalFile($key, $path);
     }
 
     /**

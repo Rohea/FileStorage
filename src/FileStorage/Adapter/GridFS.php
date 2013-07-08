@@ -75,14 +75,9 @@ class GridFS implements AdapterInterface
     /**
      * {@inheritDoc}
      */
-    public function init($key, $touch = false)
+    public function init($key)
     {
-        $file = new GridFSFile($key);
-        if ($touch) {
-            $this->save($file);
-        }
-
-        return $file;
+        return new GridFSFile($key);
     }
 
     /**

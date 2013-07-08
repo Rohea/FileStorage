@@ -46,7 +46,9 @@ class FileStorage
     }
 
     /**
-     * Opens a new file object for further modifying
+     * Initializes a new file object for further modifying.
+     * When touch is set as true, a new file is immediately saved to storage as an empty file.
+     * Use this feature if you wish to ensure key is definitely reserved for you.
      *
      * @param string $key
      * @param boolean $touch If true, immediately touches file creating a timestamp and reserving the key
@@ -66,7 +68,12 @@ class FileStorage
             }
         } catch(FileNotFoundException $e) {
             //It's good that file does not exists here
-            return $this->adapter->init($key, $touch);
+            $file = $this->adapter->init($key, $touch);
+            if ($touch) {
+                $this->save($file);
+            }
+            
+            return $file;
         }
     }
 

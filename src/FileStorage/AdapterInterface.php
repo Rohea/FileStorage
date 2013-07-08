@@ -6,7 +6,7 @@ interface AdapterInterface
 
     public function save(FileInterface $file);
 
-    public function init($key, $touch = false);
+    public function init($key);
 
     public function delete($key);
 
