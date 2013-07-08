@@ -4,7 +4,7 @@
     "description":  "A file storage abstraction library for PHP5",
     "keywords":     ["file", "storage", "abstraction", "GridFS"],
     "minimum-stability": "dev",
-    "homepage":     "http://www.rohea.com",
+    "homepage":     "https://github.com/Rohea/FileStorage",
     "license":      "MIT",
     "authors": [
         {
@@ -20,7 +20,6 @@
         "php": ">=5.3.2"
     },
     "suggest": {
-        "rohea/file-storage-bundle": "for using Symfony2",
         "ext-mongo": "to use MongoDB GridFS"
     },
     "autoload": {
