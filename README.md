@@ -75,11 +75,12 @@ $file = $storage->init("myKey", $touch = true);
 ## About choosing a 'key'
 The FileStorage library doesn't force you to pick any particular key structure. You can use what you will. But here's our recommendation
 
-```context/some/identifiers/filename.extension```
-
-e.g.
-
-```avatars/user/12345/myavatar.jpg```
+```
+format:
+context/some/identifiers/filename.extension
+example:
+avatars/user/12345/myavatar.jpg
+```
 
 This kind of key structure helps you to avoid key collisions because of namespacing and it's suits well for most of the adapters because slashes convert to folders for local adapter and so on.
 
