@@ -11,9 +11,9 @@ From application point of view, it's not optimal to deeply bind your implementat
 
 ## Features
 
-* Intuitive and very simple API
+* Intuitive and very simple API for CRUD operations
 * Fully PHP5 compatible with nice namespacing
-* Consistent behvior with all supported storage backends.
+* Consistent behavior with all supported storage backends.
 * Support for metadata if storage backend supports it
 
 Storage backends (feel free to contribute more, this is a work in progress :)
