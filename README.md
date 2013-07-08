@@ -66,10 +66,12 @@ try {
 }
 $file->getContent();
 
-// Init a new file with a touch. This stores an empty file immediately ensuring the key is not available in the storage anymore.
+// Init a new file with a touch.
+// This stores an empty file immediately ensuring the key is not available in the storage anymore.
 $file = $storage->init("myKey", $touch = true);
 
 ```
+
 ## About choosing a 'key'
 The FileStorage library doesn't force you to pick any particular key structure. You can use what you will. But here's our recommendation
 
