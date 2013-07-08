@@ -7,7 +7,7 @@ FileStorage is an object oriented file storage abstraction library for PHP5. It 
 
 There are a number of different ways to store your files when you're building an application with PHP. There's the local file system of the server, distributed systems such as GridFS and MogileFS and of course there are cloud-based CDN solutions such as Amazon S3 and many more.
 
-From application point of view, it's not optimal to deeply bind your implementation to any single storage backend, as there might be a need to be able to change that later. For example, you might first use a local filesystem when you start developing but the change to a more advanced solution when the application matures. This is where a consistent FileStorage comes handly. Using the simple APIs of FileStorage you are able to change the storage backend without needing to change the code using it.
+From application point of view, it's not optimal to deeply bind your implementation to any single storage backend, as there might be a need to be able to change that later. For example, you might first use a local filesystem when you start developing but the change to a more advanced solution when the application matures. This is when FileStorage becomes handy. Using the simple API of FileStorage you are able to change the storage backend without needing to change the code using it.
 
 ## Features
 
