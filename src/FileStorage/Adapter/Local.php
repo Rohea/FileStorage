@@ -79,7 +79,7 @@ class Local implements AdapterInterface
     /**
      * {@inheritDoc}
      */
-    public function open($key, $touch = false)
+    public function init($key, $touch = false)
     {
         $path = $this->rootDir.'/'.$this->normalize($key);
         $file = new LocalFile($key, $path);

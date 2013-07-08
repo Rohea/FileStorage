@@ -4,6 +4,7 @@ namespace FileStorage;
 use FileStorage\Exception\EmptyFileContentException;
 use FileStorage\Exception\InvalidFileKeyException;
 use FileStorage\Exception\FileNotFoundException;
+use FileStorage\Exception\FileAlreadyExistsException;
 
 class FileStorage
 {
@@ -39,7 +40,6 @@ class FileStorage
         if (! isset($key) || strlen(trim($key)) == 0) {
             throw new InvalidFileKeyException($key, "File key cannot be empty");
         }
-
         //@todo: file key could be validated against a regular expression?
 
         return $this->adapter->load($key);
@@ -52,7 +52,7 @@ class FileStorage
      * @param boolean $touch If true, immediately touches file creating a timestamp and reserving the key
      * @return FileInterface $file;
      */
-    public function open($key, $touch = false)
+    public function init($key, $touch = false)
     {
         if (! isset($key) || strlen(trim($key)) == 0) {
             throw new InvalidFileKeyException($key, "File key cannot be empty");
@@ -66,7 +66,7 @@ class FileStorage
             }
         } catch(FileNotFoundException $e) {
             //It's good that file does not exists here
-            return $this->adapter->open($key, $touch);
+            return $this->adapter->init($key, $touch);
         }
     }
 
