@@ -26,6 +26,7 @@ class FileStorage
         if ($file->getContent() == null) {
             throw new EmptyFileContentException($file->getKey(), "Cannot save an empty file.");
         }
+        
         return $this->adapter->save($file);
     }
 
@@ -47,8 +48,8 @@ class FileStorage
 
     /**
      * Initializes a new file object for further modifying.
-     * When touch is set as true, a new file is immediately saved to storage as an empty file.
-     * Use this feature if you wish to ensure key is definitely reserved for you.
+     * When touch is enabled, a new empty file is immediately saved to storage.
+     * Use this feature if you wish to ensure key is absolutely reserved for you. Notice, however, it makes an extra request to storage backend.
      *
      * @param string $key
      * @param boolean $touch If true, immediately touches file creating a timestamp and reserving the key
@@ -69,10 +70,11 @@ class FileStorage
         } catch(FileNotFoundException $e) {
             //It's good that file does not exists here
             $file = $this->adapter->init($key, $touch);
+            //Immediately save an empty file (ie. reserve key) if 'touch' is enabled
             if ($touch) {
                 $this->save($file);
             }
-            
+
             return $file;
         }
     }
