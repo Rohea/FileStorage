@@ -66,11 +66,10 @@ try {
 }
 $file->getContent();
 
-// Init a new file with a touch.
-// This stores an empty file immediately ensuring the key is not available in the storage anymore.
+// Touch a new file in init and ensure that the key becomes reserved in storage
 $file = $storage->init("myKey", $touch = true);
 
-// Test if file supports metadata and add some if it does
+// Add some metadata if file supports it
 use FileStorage\FileMetadataInterface;
 ...
 if ($file instanceof FileMetadataInterface) {
