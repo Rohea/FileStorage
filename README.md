@@ -72,7 +72,7 @@ $file = $storage->init("myKey", $touch = true);
 
 ```
 
-## About choosing a 'key'
+## Choosing a key
 The FileStorage library doesn't force you to pick any particular key structure. You can use what you will. But here's our recommendation
 
 ```
