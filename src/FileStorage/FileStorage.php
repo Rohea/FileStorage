@@ -22,12 +22,12 @@ class FileStorage
      * @throws EmptyFileContentException if file content is empty
      *
      * @param FileInterface $file
-     * 
+     *
      * @return boolean success
      */
     public function save(FileInterface $file)
     {
-        $this->validateKey($key);
+        $this->validateKey($file->getKey());
 
         if ($file->getContent() == null) {
             throw new EmptyFileContentException($file->getKey(), "Cannot save an empty file.");
