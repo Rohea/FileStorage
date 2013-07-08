@@ -70,6 +70,14 @@ $file->getContent();
 // This stores an empty file immediately ensuring the key is not available in the storage anymore.
 $file = $storage->init("myKey", $touch = true);
 
+// Test if file supports metadata and add some if it does
+use FileStorage\FileMetadataInterface;
+...
+if ($file instanceof FileMetadataInterface) {
+    $file->setMetadata(array("fooMetaKey" => "barMetaValue"));
+}
+$storage->save($file);
+
 ```
 
 ## Choosing a key
