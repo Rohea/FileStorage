@@ -8,8 +8,8 @@ class File implements FileInterface
     protected $checksum;
     protected $timestamp;
     protected $size;
-    protected $name;
-    protected $contentType;
+    protected $name = null;
+    protected $contentType = null;
 
     public function __construct($key)
     {

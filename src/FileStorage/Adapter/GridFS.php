@@ -36,15 +36,11 @@ class GridFS implements AdapterInterface
         $key = $file->getKey();
         $gridMetadata = array();
         $gridMetadata['filename'] = $key;
-        if (isset($file->getMetadata())) {
-            $gridMetadata['metadata'] = $file->getMetadata();
-        }
+        $gridMetadata['metadata'] = $file->getMetadata();
         //Optional: Mimetype
-        if (isset($file->getContentType())) {
-            $gridMetadata['contentType'] = $file->getContentType();
-        }
+        $gridMetadata['contentType'] = $file->getContentType();
         //Optional: GridFS 'aliases' field is used to store human-readable name.
-        if (isset($file->getName())) {
+        if ($file->getName() != null) {
             $gridMetadata['aliases'] = array($file->getName());
         }
         $id = $this->gridFS->storeBytes($file->getContent(), $gridMetadata);
