@@ -34,10 +34,19 @@ class GridFS implements AdapterInterface
     public function save(FileInterface $file)
     {
         $key = $file->getKey();
-        $gridMetadata = array(
-            'metadata' => $file->getMetadata(),
-            'filename' => $key,
-        );
+        $gridMetadata = array();
+        $gridMetadata['filename'] = $key;
+        if (isset($file->getMetadata())) {
+            $gridMetadata['metadata'] = $file->getMetadata();
+        }
+        //Optional: Mimetype
+        if (isset($file->getContentType())) {
+            $gridMetadata['contentType'] = $file->getContentType();
+        }
+        //Optional: GridFS 'aliases' field is used to store human-readable name.
+        if (isset($file->getName())) {
+            $gridMetadata['aliases'] = array($file->getName());
+        }
         $id = $this->gridFS->storeBytes($file->getContent(), $gridMetadata);
         $gridFSFile = $this->gridFS->findOne(array('_id' => $id));
         if ($file instanceof GridFSFile) {
@@ -66,6 +75,15 @@ class GridFS implements AdapterInterface
             $file->setTimestamp($gridFSFile->file['uploadDate']->sec);
             $file->setSize($gridFSFile->file['length']);
             $file->setChecksum($gridFSFile->file['md5']);
+            if (isset($gridFSFile->file['contentType'])) {
+                $file->setContentType($gridFSFile->file['contentType']);
+            }
+            if (isset($gridFSFile->file['aliases']) &&
+                is_array($gridFSFile->file['aliases']) &&
+                count($gridFSFile->file['aliases']) > 0) {
+                //First alias is intepreted as file's human-readable name
+                $file->setName($gridFSFile->file['aliases'][0]);
+            }
 
             return $file;
         }

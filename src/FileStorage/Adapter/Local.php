@@ -70,6 +70,7 @@ class Local implements AdapterInterface
             $file->setTimestamp(filemtime($path));
             $file->setSize(mb_strlen($file->getContent(), '8bit'));
             $file->setChecksum(md5_file($path));
+            //TODO: Set contentType and name.
 
             return $file;
         }

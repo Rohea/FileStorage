@@ -8,6 +8,8 @@ class File implements FileInterface
     protected $checksum;
     protected $timestamp;
     protected $size;
+    protected $name;
+    protected $contentType;
 
     public function __construct($key)
     {
@@ -59,4 +61,23 @@ class File implements FileInterface
         return $this->size;
     }
 
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setContentType($contentType)
+    {
+        $this->contentType = $contentType;
+    }
+
+    public function getContentType()
+    {
+        return $this->contentType;
+    }
 }

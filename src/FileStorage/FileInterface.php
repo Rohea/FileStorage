@@ -38,4 +38,11 @@ interface FileInterface
      */
     public function getSize();
 
+    /**
+     * Get content type of the file
+     *
+     * @return string
+     */
+    public function getContentType();
+
 }
